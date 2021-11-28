@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  application.properties: |2
+
+    spring.redis.sentinel.master=mymaster
+    spring.redis.sentinel.nodes=my-redis:26379
+    spring.redis.sentinel.password=${REDIS_PASSWORD}
+    spring.redis.password=${REDIS_PASSWORD}
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: spring-redis-cm

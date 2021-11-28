@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: spring-redis
+  name: spring-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-redis
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: spring-redis
+    spec:
+      containers:
+      - image: sangad/demo-redis:0.0.7
+        name: demo-redis
+        resources: {}
+        volumeMounts:
+        - name: spring-boot-config
+          mountPath: "/config"
+          readOnly: true
+        env:
+          - name: REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: my-redis
+                key: redis-password
+      volumes:
+        - name: spring-boot-config
+          configMap:
+            name: spring-redis-cm
+            items:
+              - key: application.properties
+                path: application.properties
+status: {}
